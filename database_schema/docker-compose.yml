@@ -1,0 +1,29 @@
+version: '3.9'
+
+services: 
+
+  db:
+    image: postgres
+    container_name: database
+    restart: always
+    volumes:
+      - database:/var/lib/postgresql/data
+    networks:
+      - database_network
+    env_file:
+      - database.env
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    networks:
+      - database_network
+    container_name: reverse_proxy
+
+
+networks:
+  database_network:
+
+volumes:
+  database:
